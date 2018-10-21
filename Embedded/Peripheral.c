@@ -10,11 +10,11 @@ Peripheral* new_Peripheral()
 {
 	Peripheral* this = (Peripheral*)malloc(sizeof(Peripheral));
 
-	this->BindPin = BindPin;
-	this->BindGPIO = BindGPIO;
-	this->SetPinState = SetPinState;
-	this->GetPinState = GetPinState;
-	this->TogglePinState = TogglePinState;
+	this->BindPin = &BindPin;
+	this->BindGPIO = &BindGPIO;
+	this->SetPinState = &SetPinState;
+	this->GetPinState = &GetPinState;
+	this->TogglePinState = &TogglePinState;
 
 	return this;
 }
