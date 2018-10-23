@@ -1,9 +1,10 @@
 #include "Peripheral.h"
 
-void BindGPIO(Peripheral* this, void* gpio);
+void BindGPIO(Peripheral* this, intptr_t* gpio);
 void BindPin(Peripheral* this, uint16_t pin);
 void SetPinState(Peripheral* this, bool state);
 void TogglePinState(Peripheral* this);
+
 bool GetPinState(Peripheral* this);
 
 Peripheral* new_Peripheral()
@@ -19,7 +20,7 @@ Peripheral* new_Peripheral()
 	return this;
 }
 
-void BindGPIO(Peripheral* this, void* gpio)
+void BindGPIO(Peripheral* this, intptr_t* gpio)
 {
 	this->gpio = gpio;
 }
