@@ -11,16 +11,16 @@
 
 struct Peripheral
 {
-	void* gpio;
-
+	intptr_t* gpio;
 	uint16_t pin;
 
 	bool (*GetPinState)(struct Peripheral* this);
 
 	void (*BindPin)(struct Peripheral* this, uint16_t pin);
-	void (*BindGPIO)(struct Peripheral* this, void* gpio);
+	void (*BindGPIO)(struct Peripheral* this, intptr_t* gpio);
 	void (*SetPinState)(struct Peripheral* this, bool state);
 	void (*TogglePinState)(struct Peripheral* this);
+
 };
 
 typedef struct Peripheral Peripheral;
