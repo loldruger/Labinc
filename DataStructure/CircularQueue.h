@@ -8,20 +8,20 @@
 
 struct CircularQueue
 {
-	uint16_t size;
+	size_t size;
 	uint8_t rear;
 	uint8_t front;
 
-	void** queue;
+	intptr_t** queue;
 
 	bool (*IsEmpty)(struct CircularQueue* this);
 	bool (*IsFull)(struct CircularQueue* this);
-	bool (*Enqueue)(struct CircularQueue* this, void* data);
-	void* (*Dequeue)(struct CircularQueue* this);
+	bool (*Enqueue)(struct CircularQueue* this, intptr_t* data);
+	intptr_t* (*Dequeue)(struct CircularQueue* this);
 };
 
 typedef struct CircularQueue CircularQueue;
 
-CircularQueue* new_CircularQueue(uint16_t size);
+CircularQueue* new_CircularQueue(size_t size);
 
 #endif
