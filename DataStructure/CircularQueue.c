@@ -2,15 +2,15 @@
 
 bool IsEmpty(CircularQueue* this);
 bool IsFull(CircularQueue* this);
-bool Enqueue(CircularQueue* this, intptr_t* data);
-intptr_t* Dequeue(CircularQueue* this);
+bool Enqueue(CircularQueue* this, void* data, size_t size);
+void* Dequeue(CircularQueue* this);
 
 CircularQueue* new_CircularQueue(size_t size)
 {
 	CircularQueue* this = (CircularQueue*)malloc(sizeof(CircularQueue));
 
 	this->size = size;
-	this->queue = (intptr_t**)malloc(sizeof(intptr_t**)*size);
+	this->queue = (void**)malloc(sizeof(void**)*size);
 
 	this->front = 0;
 	this->rear = 0;
@@ -22,9 +22,18 @@ CircularQueue* new_CircularQueue(size_t size)
 
 #ifdef _DEBUG_
 	printf("Instance circular queue has been created.\n");
-	printf("Queue Size is %ld.\n", sizeof(this->queue[0]));
+	printf("Queue Size is %ld.\n", sizeof(*(void*)this->queue));
 #endif
 	return this;
+}
+
+void delete_CircularQueue(CircularQueue* this)
+{
+#ifdef _DEBUG_
+	printf("Instance circular queue has been destroyed.\n");
+#endif
+	free(this->queue);
+	free(this);
 }
 
 bool IsEmpty(CircularQueue* this)
@@ -53,22 +62,37 @@ bool IsFull(CircularQueue* this)
         return false;
 }
 
-bool Enqueue(CircularQueue* this, intptr_t* data)
+bool Enqueue(CircularQueue* this, void* data, size_t size)
 {
 	if(this->IsFull(this))
 	    return false;
-
+	
 	this->rear = (this->rear + 1) % this->size;
-	this->queue[this->rear] = data;
+
+	if(size > 0)
+	{
+		this->queue[this->rear] = malloc(size);
+		memcpy(this->queue[this->rear], data, size);		
+	}
+	else if (size == 0)
+		this->queue[this->rear] = data;
+	else
+	{
+#ifdef _DEBUG_
+    printf("Unaceptable size %p at %p\n", this->queue[this->rear], &this->queue[this->rear]);
+#endif
+
+		return false;
+	}
 
 #ifdef _DEBUG_
-    printf("Enqueued %p at %p\n", this->queue[this->rear], &this->queue[this->rear]);
+    printf("Enqueued %p (copied from %p) at %p\n", this->queue[this->rear], data, &this->queue[this->rear]);
 #endif
 
 	return true;
 }
 
-intptr_t* Dequeue(CircularQueue* this)
+void* Dequeue(CircularQueue* this)
 {
 	if(this->IsEmpty(this))
 	    return NULL;
