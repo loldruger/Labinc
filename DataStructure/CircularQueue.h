@@ -17,8 +17,8 @@ struct CircularQueue
 
 	void** queue;
 
-	bool (*IsEmpty)(struct CircularQueue* this);
-	bool (*IsFull)(struct CircularQueue* this);
+	bool (*IsEmpty)(const struct CircularQueue* this);
+	bool (*IsFull)(const struct CircularQueue* this);
 	bool (*Enqueue)(struct CircularQueue* this, void* data, size_t size);
 	void* (*Dequeue)(struct CircularQueue* this);
 };
