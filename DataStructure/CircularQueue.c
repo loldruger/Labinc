@@ -1,9 +1,10 @@
 #include "CircularQueue.h"
 
-bool IsEmpty(CircularQueue* this);
-bool IsFull(CircularQueue* this);
-bool Enqueue(CircularQueue* this, void* data, size_t size);
-void* Dequeue(CircularQueue* this);
+/*public*/
+static bool IsEmpty(const CircularQueue* this);
+static bool IsFull(const CircularQueue* this);
+static bool Enqueue(CircularQueue* this, const void* data, size_t size);
+static void* Dequeue(CircularQueue* this);
 
 CircularQueue* new_CircularQueue(size_t size)
 {
@@ -36,7 +37,7 @@ void delete_CircularQueue(CircularQueue* this)
 	free(this);
 }
 
-bool IsEmpty(CircularQueue* this)
+static bool IsEmpty(const CircularQueue* this)
 {
     if(this->front == this->rear)
     {
@@ -49,7 +50,7 @@ bool IsEmpty(CircularQueue* this)
     	return false;
 }
 
-bool IsFull(CircularQueue* this)
+static bool IsFull(const CircularQueue* this)
 {
     if((this->rear + 1) % this->size == this->front)
     {
@@ -62,7 +63,7 @@ bool IsFull(CircularQueue* this)
         return false;
 }
 
-bool Enqueue(CircularQueue* this, void* data, size_t size)
+static bool Enqueue(CircularQueue* this, void* data, size_t size)
 {
 	if(this->IsFull(this))
 	    return false;
@@ -92,7 +93,7 @@ bool Enqueue(CircularQueue* this, void* data, size_t size)
 	return true;
 }
 
-void* Dequeue(CircularQueue* this)
+static void* Dequeue(CircularQueue* this)
 {
 	if(this->IsEmpty(this))
 	    return NULL;
